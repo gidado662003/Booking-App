@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { useAppContext } from "@/app/context/page";
+
+import { useAppContext } from "@/app/context/AppProvider";
 
 function DoctorComponents() {
   const router = useRouter();
@@ -59,7 +60,7 @@ function DoctorComponents() {
           </div>
         ))}
       </div>
-      {doctorData.length > 10 && (
+      {doctorData.length < doctors.length && (
         <div className="flex justify-center">
           <button className="bg-gray-400 rounded-md p-4" onClick={showMore}>
             Show More

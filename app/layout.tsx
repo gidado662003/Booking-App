@@ -1,8 +1,8 @@
 "use client";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
-import { AppProvider } from "./context/page";
-import { useAppContext } from "./context/page";
+import { AppProvider } from "./context/AppProvider";
+import { useAppContext } from "./context/AppProvider";
 
 export default function RootLayout({
   children,

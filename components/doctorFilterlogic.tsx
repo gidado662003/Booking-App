@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useAppContext } from "@/app/context/page";
+import { useAppContext } from "@/app/context/AppProvider";
 import { doctors } from "@/assets";
 import { usePathname } from "next/navigation";
 function DoctorFilterlogic() {

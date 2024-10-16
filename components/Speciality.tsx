@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { specialityData } from "../assets";
 import { useRouter } from "next/navigation";
-import { useAppContext } from "@/app/context/page";
+import { useAppContext } from "@/app/context/AppProvider";
 import { doctors } from "../assets";
 function Speciality() {
   const data = specialityData;

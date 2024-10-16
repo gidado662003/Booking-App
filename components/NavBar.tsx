@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "../public/logo.svg";
 import menu_icon from "../public/menu_icon.svg";
 import cross_icon from "../public/cross_icon.png";
-import { useAppContext } from "@/app/context/page";
+import { useAppContext } from "@/app/context/AppProvider";
 import { doctors } from "@/assets";
 import { usePathname } from "next/navigation";
 function NavBar() {
