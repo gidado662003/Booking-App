@@ -45,13 +45,18 @@ function DoctorFilterlogic() {
                 ? "bg-blue-500 text-white" // Active state styles
                 : "hover:bg-gray-100"
             }`}
-            onClick={() => handleFilter(items)}
+            onClick={() => {
+              handleFilter(items);
+              set_toggle_filter(false);
+            }}
           >
             {items}
           </li>
         ))}
         <li
-          className="border-2 p-2 cursor-pointer hover:bg-gray-100 transition-colors duration-300 ease-in-out"
+          className={`border-2 p-2 cursor-pointer transition-colors duration-300 ease-in-out ${
+            selected_filter === "all" ? "bg-blue-500 " : "hover:bg-gray-100 "
+          }`}
           onClick={() => handleFilter("all")}
         >
           <p>All</p>
