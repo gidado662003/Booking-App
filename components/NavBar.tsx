@@ -79,9 +79,9 @@ function NavBar() {
             )}
           </div>
 
-          <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-2 rounded-[12px] text-white hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 transition-all dark:bg-gradient-to-r dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800">
+          {/* <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-2 rounded-[12px] text-white hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 transition-all dark:bg-gradient-to-r dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800">
             Create account
-          </button>
+          </button> */}
           <div>
             <Image
               alt="menu"
@@ -99,29 +99,36 @@ function NavBar() {
       <div
         className={`${
           toggle ? "left-0" : "-left-full"
-        } fixed top-0 bottom-0 dark:bg-gray-800 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800 text-white w-[55%] h-screen z-10 transition-all duration-300 md:hidden`}
+        } fixed top-0 bottom-0 dark:bg-gray-800 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800 text-white w-[55%] h-screen z-10 transition-all duration-300 md:hidden shadow-lg`}
       >
-        <div className="flex justify-between p-5">
+        {/* Close button container */}
+        <div className="flex justify-between items-center p-5 border-b border-white/10">
+          <span className="text-xl font-semibold">Menu</span>
           <Image
             alt="close"
             src={cross_icon}
             height={20}
             width={20}
             onClick={() => setToggle(false)}
-            className="cursor-pointer dark:invert"
+            className="cursor-pointer dark:invert hover:opacity-80 transition-opacity duration-200"
           />
         </div>
-        <ul className="flex flex-col items-start space-y-5 px-5 mt-10">
+
+        {/* Links */}
+        <ul className="flex flex-col items-start space-y-6 px-5 mt-8">
           {links.map((link) => (
-            <li key={link.label}>
+            <li key={link.label} className="w-full">
               <Link
                 href={link.href}
-                className="text-xl dark:text-gray-200 hover:text-gray-100 dark:hover:text-white"
+                className="block text-lg font-medium w-full py-2 px-4 rounded-md dark:text-gray-300 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-gray-700 transition-all duration-200 ease-in-out"
               >
                 {link.label}
               </Link>
             </li>
           ))}
+          <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-2 rounded-[12px] text-white hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 transition-all dark:bg-gradient-to-r dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800">
+            Create account
+          </button>
         </ul>
       </div>
     </div>
