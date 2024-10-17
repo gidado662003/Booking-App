@@ -5,17 +5,22 @@ import { specialityData } from "../assets";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/app/context/AppProvider";
 import { doctors } from "../assets";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 function Speciality() {
   const data = specialityData;
-
+  const pathname = usePathname();
+  useEffect(() => {
+    setDoctorData(doctors);
+  }, [pathname]);
   const router = useRouter();
   const { setDoctorData } = useAppContext();
   const handleSpecialitRoute = (data: any) => {
-    router.push("/doctors");
     const filteredData = doctors.filter(
       (items) => items.speciality === data.speciality
     );
     setDoctorData(filteredData);
+    router.push("/doctors");
   };
   return (
     <div className="py-16">

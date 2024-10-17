@@ -12,6 +12,7 @@ function DoctorComponents() {
   const [doctorsFiltered, setDoctorsFiltered] = useState(
     doctorData.slice(0, 10)
   );
+  console.log(doctorData);
 
   useEffect(() => {
     setDoctorsFiltered(doctorData.slice(0, 10));

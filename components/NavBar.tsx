@@ -27,9 +27,6 @@ function NavBar() {
     { label: "CONTACT", href: "/contact" },
   ];
   useEffect(() => {
-    setDoctorData(doctors);
-  }, [pathname]);
-  useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -126,9 +123,11 @@ function NavBar() {
               </Link>
             </li>
           ))}
-          <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-2 rounded-[12px] text-white hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 transition-all dark:bg-gradient-to-r dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800">
-            Create account
-          </button>
+          <li>
+            <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-2 rounded-[12px] text-white hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 transition-all dark:bg-gradient-to-r dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800">
+              Create account
+            </button>
+          </li>
         </ul>
       </div>
     </div>
