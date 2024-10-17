@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-
+import { doctors } from "@/assets";
 import { useAppContext } from "@/app/context/AppProvider";
 
 function DoctorComponents() {
