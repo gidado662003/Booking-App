@@ -40,7 +40,7 @@ function DoctorFilterlogic() {
         {speciality.map((items, index) => (
           <li
             key={index}
-            className={`border-2 p-2 cursor-pointer  transition-colors duration-300 ease-in-out ${
+            className={`border-2 rounded-md p-2 cursor-pointer  transition-colors duration-300 ease-in-out ${
               selected_filter === items
                 ? "bg-blue-500 text-white" // Active state styles
                 : "hover:bg-gray-100"
@@ -54,7 +54,7 @@ function DoctorFilterlogic() {
           </li>
         ))}
         <li
-          className={`border-2 p-2 cursor-pointer transition-colors duration-300 ease-in-out ${
+          className={`rounded-md border-2 p-2 cursor-pointer transition-colors duration-300 ease-in-out ${
             selected_filter === "all" ? "bg-blue-500 " : "hover:bg-gray-100 "
           }`}
           onClick={() => handleFilter("all")}

@@ -1,7 +1,11 @@
+"use client";
 import React, { useEffect, useState } from "react";
+import { useAppContext } from "@/app/context/AppProvider";
 
-function Booking() {
+function Booking({ params }: any) {
   const currentDate = new Date();
+  console.log(params);
+  const { appointment, setAppointment } = useAppContext();
 
   const allDays = [...Array(7)].reduce((acc, _, index) => {
     const newDate = new Date(currentDate);
@@ -18,7 +22,7 @@ function Booking() {
 
   const [selectedDay, setSelectedDay] = useState<string>("");
   const [daysBooked, setDaysBooked] = useState(allDays);
-  const [selectedTime, setSelectedTime] = useState<string>();
+  const [selectedTime, setSelectedTime] = useState<string | null>();
   const [toggleTimesVisible, setToggleTimesVisible] = useState<boolean>(false);
 
   const handleBooking = (time: any) => {
@@ -44,18 +48,33 @@ function Booking() {
     } else {
       setSelectedSlot(timeSlots.weekDay);
     }
-    setToggleTimesVisible(true); // Show time slots when a day is clicked
+    setToggleTimesVisible(true);
+  };
+  const checker = appointment.find((date: any) => {
+    return date.date === selectedDay && date.time === selectedTime;
+  });
+  const handleApointments = () => {
+    if (checker) {
+      alert("You have already booked this appointment.");
+      return;
+    }
+    if (selectedDay && selectedTime) {
+      setAppointment((prev: any) => {
+        return [...prev, { date: selectedDay, time: selectedTime, id: params }];
+      });
+    }
+    setSelectedTime(null);
   };
 
   return (
-    <div className="p-4 space-y-6 ">
+    <div className="p-4 space-y-6 dark:bg-slate-800">
       {/* Day selection */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
+      <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-4">
         {Object.keys(allDays).map((day, index) => {
           return (
             <div key={index} className="text-center">
               <button
-                className={`py-2 px-4 rounded-lg shadow-lg font-semibold transition-all duration-300 ease-in-out transform-gpu ${
+                className={`py-2 px-4 rounded-lg shadow-lg font-semibold  transition-all duration-300 ease-in-out transform-gpu ${
                   selectedDay === day
                     ? "bg-blue-500 text-white shadow-blue-300 dark:bg-blue-700"
                     : "bg-white text-slate-500 border border-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
@@ -72,28 +91,30 @@ function Booking() {
       </div>
 
       {/* Time selection */}
-      <div
-        className={`flex justify-center gap-4 transition-opacity duration-300 ease-in-out ${
-          toggleTimesVisible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        {selectedSlot.map((time, index) => (
-          <div className="px-3" key={index}>
-            <button
-              className={`py-2 px-6 rounded-lg shadow-lg font-medium transition-transform transform-gpu duration-300 ease-in-out ${
-                daysBooked[selectedDay] === time
-                  ? "bg-green-400 text-white shadow-green-300 dark:bg-green-600"
-                  : "bg-white text-slate-600 border border-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
-              } hover:bg-green-500 hover:text-white hover:scale-110 hover:shadow-lg dark:hover:bg-green-700`}
-              onClick={() => {
-                handleBooking(time);
-                setSelectedTime(time);
-              }}
-            >
-              {time}
-            </button>
-          </div>
-        ))}
+      <div className="flex justify-center">
+        <div
+          className={`grid grid-cols-2 sm:grid-cols-4 justify-center gap-4 transition-opacity duration-300 ease-in-out ${
+            toggleTimesVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {selectedSlot.map((time, index) => (
+            <div className="px-3" key={index}>
+              <button
+                className={`py-2 px-6 rounded-lg shadow-lg font-medium transition-transform transform-gpu duration-300 ease-in-out ${
+                  daysBooked[selectedDay] === time
+                    ? "bg-green-400 text-white shadow-green-300 dark:bg-green-600"
+                    : "bg-white text-slate-600 border border-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600"
+                } hover:bg-green-500 hover:text-white hover:scale-110 hover:shadow-lg dark:hover:bg-green-700`}
+                onClick={() => {
+                  handleBooking(time);
+                  setSelectedTime(time);
+                }}
+              >
+                {time}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Toggle button (Close) */}
@@ -110,6 +131,12 @@ function Booking() {
           </div>
         </div>
       )}
+      <button
+        className="bg-blue-700 p-3 rounded-md text-white"
+        onClick={handleApointments}
+      >
+        Book Apointment
+      </button>
     </div>
   );
 }

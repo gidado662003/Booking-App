@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Booking from "@/components/Booking";
 
 function Appointment({ params }: any) {
+  console.log(params);
   const router = useRouter();
   const [doctorData, setDoctorData] = useState(
     doctors.filter((data) => data._id === params.id)
@@ -53,7 +54,7 @@ function Appointment({ params }: any) {
         </div>
       </div>
       <div className="flex justify-center mt-[80px]">
-        <Booking />
+        <Booking params={doctorData} />
       </div>
 
       {/* Related Doctors Section */}

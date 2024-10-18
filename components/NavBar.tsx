@@ -23,7 +23,7 @@ function NavBar() {
   const links: Link[] = [
     { label: "HOME", href: "/" },
     { label: "ALL DOCTORS", href: "/doctors" },
-    { label: "ABOUT", href: "/about" },
+    { label: "MY APPOINTMENTS", href: "/my-appointments" },
     { label: "CONTACT", href: "/contact" },
   ];
   useEffect(() => {
