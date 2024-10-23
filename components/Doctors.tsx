@@ -41,7 +41,7 @@ function DoctorComponents() {
         {doctorsFiltered.map((doctor: any) => (
           <div
             key={doctor._id}
-            className="bg-white rounded-lg overflow-hidden border-[1px] hover:-translate-y-2 duration-500  cursor-pointer "
+            className="bg-white rounded-lg  border-[1px] hover:-translate-y-[2px] duration-200  cursor-pointer "
             onClick={() => router.push(`appointment/${doctor._id}`)}
           >
             <Image
@@ -49,7 +49,7 @@ function DoctorComponents() {
               height={412}
               src={doctor.image}
               alt={doctor.name}
-              className="w-full h-60 object-cover bg-[#C9D8FF] dark:bg-gray-900"
+              className="w-full h-60 object-cover overflow-hidden bg-[#C9D8FF] dark:bg-gray-900"
             />
             <div className="p-4 dark:bg-slate-600 ">
               <p className="text-[#0FBF00] font-semibold">• Available</p>

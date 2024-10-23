@@ -27,7 +27,7 @@ const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
     <body
       className={`px-4 md:px-32 py-2  ${
         darkMode ? "bg-[#121212] text-white" : "bg-[#fffcfc]"
-      } duration-[0.3s]`}
+      } transition-colors duration-[0.3s]`}
     >
       <NavBar />
       <main>{children}</main>

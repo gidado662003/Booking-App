@@ -1,10 +1,10 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "@/app/context/AppProvider";
+import { useToast } from "@/hooks/use-toast";
 
 function Booking({ params }: any) {
   const currentDate = new Date();
-  console.log(params);
+  const { toast } = useToast();
   const { appointment, setAppointment } = useAppContext();
 
   const allDays = [...Array(7)].reduce((acc, _, index) => {
@@ -25,13 +25,10 @@ function Booking({ params }: any) {
   const [selectedTime, setSelectedTime] = useState<string | null>();
   const [toggleTimesVisible, setToggleTimesVisible] = useState<boolean>(false);
 
+  // Function to handle booking
   const handleBooking = (time: any) => {
     setDaysBooked((prev: any) => ({ ...prev, [selectedDay]: time }));
   };
-
-  useEffect(() => {
-    console.log(daysBooked);
-  }, [daysBooked]);
 
   const timeSlots = {
     weekDay: ["9:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"],
@@ -40,6 +37,7 @@ function Booking({ params }: any) {
 
   const [selectedSlot, setSelectedSlot] = useState<string[]>([]);
 
+  // Function to handle time selection
   const handleTime = (day: any) => {
     setSelectedDay(day);
 
@@ -50,21 +48,68 @@ function Booking({ params }: any) {
     }
     setToggleTimesVisible(true);
   };
-  const checker = appointment.find((date: any) => {
-    return date.date === selectedDay && date.time === selectedTime;
-  });
+
+  // Function to handle appointment booking
   const handleApointments = () => {
+    const checker = appointment.find((date: any) => {
+      return date.date === selectedDay && date.time === selectedTime;
+    });
     if (checker) {
-      alert("You have already booked this appointment.");
+      toast({
+        title: "Appointment Conflict",
+        description: "You have already booked an appointment for this day.",
+        variant: "destructive",
+        duration: 3000,
+      });
       return;
     }
     if (selectedDay && selectedTime) {
       setAppointment((prev: any) => {
-        return [...prev, { date: selectedDay, time: selectedTime, id: params }];
+        toast({
+          title: "Appointment Confirmation",
+          description: `Your Appointment for ${selectedDay}|${selectedTime} has been booked .`,
+          duration: 5000,
+          className: "bg-green-500 text-white",
+        });
+        return [
+          ...prev,
+          {
+            date: selectedDay,
+            time: selectedTime,
+            id: params,
+            approoved: false,
+            payed: false,
+            isValid: true, // Set to true initially
+          },
+        ];
       });
     }
     setSelectedTime(null);
   };
+
+  // Function to check and toggle isValid based on the current date
+  const checkAppointmentValidity = () => {
+    const currentDate = new Date();
+    setAppointment((prev: any) => {
+      return prev.map((app: any) => {
+        const appointmentDate = new Date(app.date);
+        if (appointmentDate < currentDate) {
+          return { ...app, isValid: false }; // Mark as invalid if the date has passed
+        }
+        return app;
+      });
+    });
+  };
+
+  // Set an interval to check every hour
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkAppointmentValidity();
+    }, 3600000); // 1 hour = 3600000 milliseconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="p-4 space-y-6 dark:bg-slate-800">

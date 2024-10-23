@@ -19,13 +19,16 @@ function NavBar() {
     label: string;
     href: string;
   };
-
+  useEffect(() => {
+    setToggle(false);
+  }, [pathname]);
   const links: Link[] = [
     { label: "HOME", href: "/" },
     { label: "ALL DOCTORS", href: "/doctors" },
     { label: "MY APPOINTMENTS", href: "/my-appointments" },
     { label: "CONTACT", href: "/contact" },
   ];
+  console.log(darkMode);
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");

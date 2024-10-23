@@ -1,13 +1,46 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useAppContext } from "../context/AppProvider";
-import { div } from "framer-motion/client";
 
 function MyAppointments() {
-  const { appointment } = useAppContext();
-  console.log(appointment);
+  const { appointment, setAppointment } = useAppContext();
 
+  const checkAppointmentValidity = () => {
+    const currentDate = new Date();
+    setAppointment((prev: any) => {
+      return prev.map((app: any) => {
+        const appointmentDate = new Date(app.date);
+        if (appointmentDate <= currentDate) {
+          return { ...app, isValid: false };
+        }
+        return app;
+      });
+    });
+  };
+  const handleInvalidAppointments = () => {
+    const findInvalid = appointment.filter(
+      (invalid: any) => invalid.isValid === false
+    );
+    setAppointment(findInvalid);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleInvalidAppointments();
+    }, 21600000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkAppointmentValidity();
+    }, 21600000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div>
       <p>My Appointments</p>
@@ -56,12 +89,20 @@ function MyAppointments() {
               </div>
             </div>
             <div className="flex flex-col sm:items-end items-center mt-4 sm:mt-0 space-y-4 w-full sm:w-auto">
-              <button className="w-full sm:w-auto bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300">
-                Pay Online
-              </button>
-              <button className="w-full sm:w-auto bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300">
-                Cancel Appointment
-              </button>
+              {data.isValid === true ? (
+                <>
+                  <button className="w-full sm:w-auto bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300">
+                    Pay Online
+                  </button>
+                  <button className="w-full sm:w-auto bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300">
+                    Cancel Appointment
+                  </button>
+                </>
+              ) : (
+                <button className="w-full sm:w-auto bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-[10px] hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300">
+                  Appointment expired
+                </button>
+              )}
             </div>
           </div>
         ))}
