@@ -42,9 +42,9 @@ function MyAppointments() {
     return () => clearInterval(interval);
   }, []);
 
-  const cancelAppointment = (apointment) => {
+  const cancelAppointment = (apointment: any) => {
     const validAppointments = appointment.filter(
-      (data) => data.id !== apointment
+      (data: any) => data.id !== apointment
     );
     setAppointment(validAppointments);
   };
