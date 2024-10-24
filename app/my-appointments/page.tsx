@@ -1,17 +1,34 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useAppContext } from "../context/AppProvider";
+
+// Define a type for your appointment data structure
+interface DoctorInfo {
+  name: string;
+  speciality: string;
+  address?: {
+    line1: string;
+    line2?: string;
+  };
+  image: string;
+}
+
+interface Appointment {
+  id: string;
+  info: DoctorInfo[];
+  date: string;
+  time: string;
+  isValid: boolean;
+}
 
 function MyAppointments() {
   const { appointment, setAppointment } = useAppContext();
 
   const checkAppointmentValidity = () => {
     const currentDate = new Date();
-    setAppointment((prev: any) => {
-      return prev.map((app: any) => {
+    setAppointment((prev: Appointment[]) => {
+      return prev.map((app) => {
         const appointmentDate = new Date(app.date);
         if (appointmentDate <= currentDate) {
           return { ...app, isValid: false };
@@ -20,9 +37,10 @@ function MyAppointments() {
       });
     });
   };
+
   const handleInvalidAppointments = () => {
     const findInvalid = appointment.filter(
-      (invalid: any) => invalid.isValid === false
+      (invalid: Appointment) => invalid.isValid === false
     );
     setAppointment(findInvalid);
   };
@@ -38,21 +56,21 @@ function MyAppointments() {
     const interval = setInterval(() => {
       checkAppointmentValidity();
     }, 21600000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const cancelAppointment = (apointment: any) => {
+  const cancelAppointment = (apointmentId: string) => {
     const validAppointments = appointment.filter(
-      (data: any) => data.id !== apointment
+      (data: Appointment) => data.id !== apointmentId
     );
     setAppointment(validAppointments);
   };
+
   return (
     <div>
       <p>My Appointments</p>
       <div className="container mx-auto p-4 sm:p-6">
-        {appointment.map((data: any) => (
+        {appointment.map((data: Appointment) => (
           <div
             key={data.time}
             className="flex flex-col sm:flex-row justify-between items-start bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-700 rounded-lg overflow-hidden mb-6 p-4 sm:p-6  transition-shadow duration-300"
