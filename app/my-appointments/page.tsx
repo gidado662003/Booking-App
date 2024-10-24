@@ -41,6 +41,13 @@ function MyAppointments() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const cancelAppointment = (apointment) => {
+    const validAppointments = appointment.filter(
+      (data) => data.id !== apointment
+    );
+    setAppointment(validAppointments);
+  };
   return (
     <div>
       <p>My Appointments</p>
@@ -54,7 +61,7 @@ function MyAppointments() {
               <div className="flex-shrink-0 mx-auto sm:mx-0">
                 <Image
                   className="bg-slate-200 dark:bg-gray-700 rounded-md object-cover"
-                  src={data.id[0].image}
+                  src={data.info[0].image}
                   alt="Doctor"
                   width={160}
                   height={160}
@@ -63,10 +70,10 @@ function MyAppointments() {
               <div className="space-y-4 text-center sm:text-left">
                 <div>
                   <h2 className="font-semibold text-lg text-gray-800 dark:text-gray-100">
-                    {data.id[0].name}
+                    {data.info[0].name}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {data.id[0].speciality}
+                    {data.info[0].speciality}
                   </p>
                 </div>
                 <div>
@@ -74,8 +81,8 @@ function MyAppointments() {
                     Address
                   </p>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    <p>{data.id[0].address.line1}</p>
-                    <p>{data.id[0].address.line2}</p>
+                    <p>{data.info[0].address?.line1}</p>
+                    <p>{data.info[0].address?.line2}</p>
                   </div>
                 </div>
                 <div className="flex justify-center sm:justify-start items-center gap-2 text-gray-600 dark:text-gray-300">
@@ -94,7 +101,12 @@ function MyAppointments() {
                   <button className="w-full sm:w-auto bg-blue-500 dark:bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300">
                     Pay Online
                   </button>
-                  <button className="w-full sm:w-auto bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300">
+                  <button
+                    onClick={() => {
+                      cancelAppointment(data.id);
+                    }}
+                    className="w-full sm:w-auto bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-600 dark:hover:bg-red-700 transition-colors duration-300"
+                  >
                     Cancel Appointment
                   </button>
                 </>

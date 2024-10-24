@@ -3,7 +3,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { AppProvider } from "./context/AppProvider";
 import { useAppContext } from "./context/AppProvider";
-
+import { Toaster } from "@/components/ui/toaster";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -14,6 +14,7 @@ export default function RootLayout({
       <body className="px-4 md:px-32 py-2 ">
         <AppProvider>
           <LayoutComponent>{children}</LayoutComponent>
+          <Toaster />
         </AppProvider>
       </body>
     </html>

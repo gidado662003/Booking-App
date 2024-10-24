@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "@/app/context/AppProvider";
 import { useToast } from "@/hooks/use-toast";
-
+import { v4 as uuidv4 } from "uuid";
 function Booking({ params }: any) {
   const currentDate = new Date();
   const { toast } = useToast();
@@ -25,7 +25,6 @@ function Booking({ params }: any) {
   const [selectedTime, setSelectedTime] = useState<string | null>();
   const [toggleTimesVisible, setToggleTimesVisible] = useState<boolean>(false);
 
-  // Function to handle booking
   const handleBooking = (time: any) => {
     setDaysBooked((prev: any) => ({ ...prev, [selectedDay]: time }));
   };
@@ -37,7 +36,6 @@ function Booking({ params }: any) {
 
   const [selectedSlot, setSelectedSlot] = useState<string[]>([]);
 
-  // Function to handle time selection
   const handleTime = (day: any) => {
     setSelectedDay(day);
 
@@ -49,7 +47,6 @@ function Booking({ params }: any) {
     setToggleTimesVisible(true);
   };
 
-  // Function to handle appointment booking
   const handleApointments = () => {
     const checker = appointment.find((date: any) => {
       return date.date === selectedDay && date.time === selectedTime;
@@ -67,49 +64,27 @@ function Booking({ params }: any) {
       setAppointment((prev: any) => {
         toast({
           title: "Appointment Confirmation",
-          description: `Your Appointment for ${selectedDay}|${selectedTime} has been booked .`,
-          duration: 5000,
+          description: `Your Appointment for ${selectedDay} | ${selectedTime} has been booked .`,
+          duration: 3000,
           className: "bg-green-500 text-white",
         });
+
         return [
           ...prev,
           {
+            id: uuidv4(),
             date: selectedDay,
             time: selectedTime,
-            id: params,
+            info: params,
             approoved: false,
             payed: false,
-            isValid: true, // Set to true initially
+            isValid: true,
           },
         ];
       });
     }
     setSelectedTime(null);
   };
-
-  // Function to check and toggle isValid based on the current date
-  const checkAppointmentValidity = () => {
-    const currentDate = new Date();
-    setAppointment((prev: any) => {
-      return prev.map((app: any) => {
-        const appointmentDate = new Date(app.date);
-        if (appointmentDate < currentDate) {
-          return { ...app, isValid: false }; // Mark as invalid if the date has passed
-        }
-        return app;
-      });
-    });
-  };
-
-  // Set an interval to check every hour
-  useEffect(() => {
-    const interval = setInterval(() => {
-      checkAppointmentValidity();
-    }, 3600000); // 1 hour = 3600000 milliseconds
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="p-4 space-y-6 dark:bg-slate-800">

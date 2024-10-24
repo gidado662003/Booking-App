@@ -120,7 +120,7 @@ function NavBar() {
             <li key={link.label} className="w-full">
               <Link
                 href={link.href}
-                className="block text-lg font-medium w-full py-2 px-4 rounded-md dark:text-gray-300 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-gray-700 transition-all duration-200 ease-in-out"
+                className="block text-[16px] md:text-lg font-medium w-full py-2 px-4 rounded-md dark:text-gray-300 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-gray-700 transition-all duration-200 ease-in-out"
               >
                 {link.label}
               </Link>
